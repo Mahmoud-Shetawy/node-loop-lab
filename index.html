@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/icon.svg" />
+		<title>Node Loop Lab</title>
+		<meta
+			name="description"
+			content="Step through the Node.js event loop: V8, libuv phases, nextTick and Promise queues, timers and the thread pool, checked against real Node."
+		/>
+		<!-- pick the color scheme before the first paint, so there is no flash -->
+		<script>
+			try {
+				const saved = localStorage.getItem('node-loop-lab:scheme');
+				const dark = saved
+					? saved === 'dark'
+					: matchMedia('(prefers-color-scheme: dark)').matches;
+				document.documentElement.classList.toggle('dark', dark);
+			} catch {
+				document.documentElement.classList.add('dark');
+			}
+		</script>
+	</head>
+	<body>
+		<div id="root"></div>
+		<script type="module" src="/src/main.tsx"></script>
+	</body>
+</html>

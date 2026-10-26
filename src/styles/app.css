@@ -1,0 +1,182 @@
+@import 'tailwindcss';
+
+/* `dark:` follows the .dark class set by the scheme toggle */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+	--font-sans: 'Inter Variable', Inter, system-ui, sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+	--color-background: var(--surface-0);
+	--color-card: var(--surface-1);
+	--color-secondary: var(--surface-2);
+	--color-foreground: var(--ink);
+	--color-muted-foreground: var(--ink-soft);
+	--color-border: var(--line);
+	--color-accent: var(--brand);
+	--color-warning: var(--amber);
+	--color-destructive: var(--red);
+}
+
+/* one neutral scale per scheme; the brand color is the Node green */
+:root {
+	--surface-0: #f6f7f9;
+	--surface-1: #ffffff;
+	--surface-2: #eceef2;
+	--ink: #161a22;
+	--ink-soft: #5b6372;
+	--line: #d5d9e1;
+	--brand: #2f8a4c;
+	--amber: #b7791f;
+	--red: #d23f3f;
+	--glow: rgb(47 138 76 / 0.08);
+}
+
+.dark {
+	--surface-0: #0d1014;
+	--surface-1: #151a21;
+	--surface-2: #1f2630;
+	--ink: #e7eaf0;
+	--ink-soft: #97a0ae;
+	--line: #2f3845;
+	--brand: #5fbf7d;
+	--amber: #e8b04a;
+	--red: #f0706b;
+	--glow: rgb(95 191 125 / 0.07);
+	color-scheme: dark;
+}
+
+/*
+ * Callback categories: every kind of callback keeps one color wherever it
+ * goes. -f fill, -s stroke, -t text.
+ */
+:root {
+	--cat-timer-f: #fdf0dc;
+	--cat-timer-s: #c27a12;
+	--cat-timer-t: #6a3d05;
+	--cat-io-f: #def4ea;
+	--cat-io-s: #219a70;
+	--cat-io-t: #0b4d3b;
+	--cat-immediate-f: #ecebfd;
+	--cat-immediate-s: #7a70d8;
+	--cat-immediate-t: #382f86;
+	--cat-tick-f: #fbe8ef;
+	--cat-tick-s: #cf4f7b;
+	--cat-tick-t: #6e223c;
+	--cat-promise-f: #fbebe4;
+	--cat-promise-s: #d4592c;
+	--cat-promise-t: #6c2a12;
+	--cat-close-f: #efeee9;
+	--cat-close-s: #86857e;
+	--cat-close-t: #42423f;
+	--cat-main-f: #efeee9;
+	--cat-main-s: #86857e;
+	--cat-main-t: #42423f;
+	--cat-call-f: #e4effa;
+	--cat-call-s: #3784d6;
+	--cat-call-t: #0d4479;
+}
+
+.dark {
+	--cat-timer-f: #5c3507;
+	--cat-timer-s: #eda23a;
+	--cat-timer-t: #fcefdc;
+	--cat-io-f: #0a4a3b;
+	--cat-io-s: #63c7a4;
+	--cat-io-t: #ddf4ea;
+	--cat-immediate-f: #383183;
+	--cat-immediate-s: #b0aaee;
+	--cat-immediate-t: #edecfd;
+	--cat-tick-f: #6a2239;
+	--cat-tick-s: #ec97b4;
+	--cat-tick-t: #fbe9ef;
+	--cat-promise-f: #6a2a13;
+	--cat-promise-s: #ef9c7f;
+	--cat-promise-t: #fbece5;
+	--cat-close-f: #41413e;
+	--cat-close-s: #b2b0a8;
+	--cat-close-t: #efeee9;
+	--cat-main-f: #41413e;
+	--cat-main-s: #b2b0a8;
+	--cat-main-t: #efeee9;
+	--cat-call-f: #0e4176;
+	--cat-call-s: #8ab8ea;
+	--cat-call-t: #e4effa;
+}
+
+@layer base {
+	*,
+	::before,
+	::after {
+		border-color: var(--line);
+	}
+
+	html,
+	body,
+	#root {
+		min-height: 100%;
+	}
+
+	body {
+		margin: 0;
+		background:
+			radial-gradient(90% 60% at 50% -20%, var(--glow), transparent 70%) fixed,
+			var(--surface-0);
+		color: var(--ink);
+		font-family: var(--font-sans);
+		font-size: 14px;
+		-webkit-font-smoothing: antialiased;
+		/* Inter would turn -> and => into arrows */
+		font-feature-settings: 'calt' 0;
+	}
+
+	html:lang(ar) body {
+		font-family: 'IBM Plex Sans Arabic', var(--font-sans);
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--brand);
+		outline-offset: 2px;
+	}
+}
+
+/* code, callback labels, console values: monospace and always LTR */
+.code-text {
+	direction: ltr;
+	unicode-bidi: isolate;
+	font-family: var(--font-mono);
+	font-variant-ligatures: none;
+	font-feature-settings:
+		'calt' 0,
+		'liga' 0;
+}
+
+/* --- the Ace editor ------------------------------------------------------ */
+
+.code-editor .ace_editor,
+.code-editor .ace_editor * {
+	font-family: var(--font-mono) !important;
+	font-variant-ligatures: none;
+	font-feature-settings:
+		'calt' 0,
+		'liga' 0;
+}
+
+.code-editor .ace_editor,
+.code-editor .ace_gutter,
+.code-editor .ace_scroller {
+	background: var(--surface-1);
+}
+
+/* the code of the frame running right now */
+.code-editor .marker-running {
+	position: absolute;
+	background: color-mix(in oklab, var(--brand) 28%, transparent);
+	border-radius: 2px;
+}
+
+/* the source range an engine error points at */
+.code-editor .marker-error {
+	position: absolute;
+	background: color-mix(in oklab, var(--red) 16%, transparent);
+	border-bottom: 2px wavy var(--red);
+}
